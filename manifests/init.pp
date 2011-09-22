@@ -61,7 +61,7 @@ class nodejs($user) {
   
   class {"nodejs::npm": 
       user    => $user 
-    , require => 'install_node'
+    , require => Exec['install_node']
   }
   
 }
