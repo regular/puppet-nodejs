@@ -1,7 +1,5 @@
 class nodejs($user) {
 
-  class {"nodejs::npm": user => $user}
-
   $node_ver = "v0.4.12"
   $node_tar = "node-$node_ver.tar.gz"
 
@@ -59,6 +57,11 @@ class nodejs($user) {
     require => Exec["make_node"],
     timeout => 0,
     path    => ["/usr/bin/","/bin/"],
+  }
+  
+  class {"nodejs::npm": 
+      user    => $user 
+    , require => 'install_node'
   }
   
 }
