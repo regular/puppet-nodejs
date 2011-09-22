@@ -30,7 +30,7 @@ class nodejs($user) {
     path    => ["/usr/bin/","/bin/"],
   }
 
-  exec { "bash ./configure --prefix=/opt/node":
+  exec { "bash ./configure":
     alias => "configure_node",
     cwd => "/tmp/node-$node_ver",
     require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["build-essential"]],
@@ -58,14 +58,8 @@ class nodejs($user) {
     cwd => "/tmp/node-$node_ver",
     require => Exec["make_node"],
     timeout => 0,
-    creates => "/opt/node/bin/node",
     path    => ["/usr/bin/","/bin/"],
   }
-
-  file { "/opt/node/":
-    group => "$user",
-    require => Exec["install_node"],
-    recurse => true
-  }
+  
 }
 
