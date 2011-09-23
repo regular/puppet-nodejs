@@ -1,11 +1,17 @@
 class nodejs::npm($user) {
 
-  $NPM_INSTALL_DIR = '/tmp'
+  $NPM_TMP_INSTALL_DIR = '/tmp'
+  
+  exec { 'wget-npm-install':
+      command => 'wget http://npmjs.org/install.sh'
+    , cwd     => $NPM_TMP_INSTALL_DIR
+    , creates => "${NPM_TMP_INSTALL_DIR}/install.sh"
+  }
 
   exec { 'npm-install':
-      command => 'bash curl http://npmjs.org/install.sh | clean=yes sh'
-    , cwd     => $NPM_INSTALL_DIR
-    , path    => ["/usr/bin/", "/bin"]
+      command => "clean=yes sh ${NPM_TMP_INSTALL_DIR}/install.sh"
+    , path    => ["/bin"]
+    , creates => '/usr/local/bin/npm'
   }
     
 }

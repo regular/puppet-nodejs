@@ -53,10 +53,11 @@ class nodejs($user) {
 
   exec { "install_node":
     command => "make install",
-    cwd => "/tmp/node-$node_ver",
+    cwd     => "/tmp/node-$node_ver",
     require => Exec["make_node"],
     timeout => 0,
     path    => ["/usr/bin/","/bin/"],
+    creates => '/usr/local/bin/node'
   }
   
   class {"nodejs::npm": 
