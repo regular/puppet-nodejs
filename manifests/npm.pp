@@ -16,11 +16,11 @@ class nodejs::npm($user) {
   
   exec { "make_npm":
     cwd     => $NPM_PATH,
-    command => "make install",
+    command => "bash make install",
     require => Exec['npm-git-clone'],
     creates => "/usr/local/bin/npm",
     timeout => 0,
-    path    => ["/usr/bin/","/bin/", "/opt/node/bin"],
+    path    => ["/usr/bin/","/bin/", "/usr/local/bin"],
   }
     
 }
