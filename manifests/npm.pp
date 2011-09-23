@@ -1,7 +1,7 @@
 class nodejs::npm($user) {
 
-  $NPM_TMP_PATH = '/tmp/npm'
-  $NPM_REPO     = 'git://github.com/isaacs/npm.git'
+  $NPM_PATH = '/opt/npm'
+  $NPM_REPO = 'git://github.com/isaacs/npm.git'
 
   package { "npm-git-dep":
       name    => 'git'
@@ -9,12 +9,13 @@ class nodejs::npm($user) {
   }
   
   exec { 'npm-git-clone':
-      command => "git clone ${NPM_REPO} ${NPM_TMP_PATH}"
+      command => "git clone ${NPM_REPO} ${NPM_PATH}"
     , path    => ['/usr/bin']
+    , creates => "${NPM_PATH}/.git/HEAD"
   }
   
   exec { "make_npm":
-    cwd => $NPM_TMP_PATH,
+    cwd     => $NPM_PATH,
     command => "make install",
     require => Exec['npm-git-clone'],
     creates => "/usr/local/bin/npm",
