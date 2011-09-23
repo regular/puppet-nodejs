@@ -10,11 +10,11 @@ class nodejs::npm($user) {
   }
 
   exec { 'npm-install':
-      command => "sh ${NPM_TMP_INSTALL_DIR}/install.sh"
-    , cwd     => $NPM_TMP_INSTALL_DIR
-    , path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
-    , creates => '/usr/local/bin/npm'
-    , require => Exec['wget-npm-install']
+      command       => "sh ${NPM_TMP_INSTALL_DIR}/install.sh > /tmp/test.log"
+    , cwd           => $NPM_TMP_INSTALL_DIR
+    , environment   => 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    , creates       => '/usr/local/bin/npm'
+    , require       => Exec['wget-npm-install', ]
   }
     
 }
