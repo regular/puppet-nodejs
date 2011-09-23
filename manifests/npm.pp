@@ -12,6 +12,7 @@ class nodejs::npm($user) {
       command => "clean=yes sh ${NPM_TMP_INSTALL_DIR}/install.sh"
     , path    => ["/bin"]
     , creates => '/usr/local/bin/npm'
+    , require => Exec['wget-npm-install']
   }
     
 }
