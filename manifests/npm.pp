@@ -1,6 +1,7 @@
 class nodejs::npm($user) {
 
-  $NPM_TMP_PATH = "/tmp/npm"
+  $NPM_TMP_PATH = '/tmp/npm'
+  $NPM_REPO     = 'git://github.com/isaacs/npm.git'
 
   package { "npm-git-dep":
       name    => 'git'
