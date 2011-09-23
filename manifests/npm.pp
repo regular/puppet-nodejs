@@ -6,6 +6,7 @@ class nodejs::npm($user) {
       command => 'wget http://npmjs.org/install.sh'
     , cwd     => $NPM_TMP_INSTALL_DIR
     , creates => "${NPM_TMP_INSTALL_DIR}/install.sh"
+    , path    => ['/usr/bin']
   }
 
   exec { 'npm-install':
