@@ -14,7 +14,7 @@ class nodejs::npm($user) {
     , cwd           => $NPM_TMP_INSTALL_DIR
     , environment   => 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     , creates       => '/usr/local/bin/npm'
-    , require       => Exec['wget-npm-install', ]
+    , require       => Exec['wget-npm-install']
   }
     
 }
