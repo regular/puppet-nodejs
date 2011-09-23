@@ -1,20 +1,27 @@
 class nodejs::npm($user) {
 
-  $NPM_TMP_INSTALL_DIR = '/tmp'
+  $npm_path = "/opt/npm-src"
+
+  package { "npm-git-dep":
+    ensure => "installed"
+  }
   
-  exec { 'wget-npm-install':
-      command => 'wget http://npmjs.org/install.sh'
-    , cwd     => $NPM_TMP_INSTALL_DIR
-    , creates => "${NPM_TMP_INSTALL_DIR}/install.sh"
-    , path    => ['/usr/bin']
+  vcsrepo { $npm_path:
+    ensure  => present,
+    provider => git,
+    source => "http://github.com/isaacs/npm.git",
+    require => [Exec["install_node"], Package["npm-git-dep"]], 
+    revision => "HEAD"
   }
 
-  exec { 'npm-install':
-      command       => "sh ${NPM_TMP_INSTALL_DIR}/install.sh > /tmp/test.log"
-    , cwd           => $NPM_TMP_INSTALL_DIR
-    , environment   => 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    , creates       => '/usr/local/bin/npm'
-    , require       => Exec['wget-npm-install']
+  
+  exec { "make_npm":
+    cwd => "$npm_path",
+    command => "make install",
+    require => Vcsrepo[$npm_path],
+    creates => "/usr/local/bin/npm",
+    timeout => 0,
+    path    => ["/usr/bin/","/bin/", "/opt/node/bin"],
   }
     
 }
