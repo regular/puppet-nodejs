@@ -3,7 +3,8 @@ class nodejs::npm($user) {
   $npm_path = "/opt/npm-src"
 
   package { "npm-git-dep":
-    ensure => "installed"
+      name    => 'git'
+    , ensure  => "installed"
   }
   
   vcsrepo { $npm_path:
