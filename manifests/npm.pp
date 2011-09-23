@@ -16,7 +16,7 @@ class nodejs::npm($user) {
   
   exec { "make_npm":
     cwd     => $NPM_PATH,
-    command => "bash make install",
+    command => "make install",
     require => Exec['npm-git-clone'],
     creates => "/usr/local/bin/npm",
     timeout => 0,
