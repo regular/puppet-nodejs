@@ -1,6 +1,6 @@
 class nodejs::npm($user) {
 
-  $NPM_PATH = '/opt/npm'
+  $NPM_PATH = '/usr/local/src/npm'
   $NPM_REPO = 'git://github.com/isaacs/npm.git'
 
   package { "npm-git-dep":
