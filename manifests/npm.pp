@@ -2,11 +2,6 @@ class nodejs::npm($user) {
 
   $NPM_PATH = '/usr/local/src/npm'
   $NPM_REPO = 'git://github.com/isaacs/npm.git'
-
-  package { "nodejs::npm-build-essential-dep":
-      name    => 'build-essential'
-    , ensure  => 'installed'
-  }
   
   package { "npm-git-dep":
       name    => 'git'
@@ -22,7 +17,7 @@ class nodejs::npm($user) {
   exec { "make_npm":
     cwd     => $NPM_PATH,
     command => "make install",
-    require => [Exec['npm-git-clone'], Package['nodejs::npm-build-essential-dep']],
+    require => [Exec['npm-git-clone'], Package['build-essential']],
     creates => "/usr/local/bin/npm",
     timeout => 0,
     path    => ["/usr/bin/","/bin/", "/usr/local/bin"],

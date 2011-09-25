@@ -11,9 +11,8 @@ class nodejs($user) {
     ensure => "installed"
   }
   
-  package { 'nodejs-build-essential-dep': 
-      name    => 'build-essential'
-    , ensure  => installed
+  package { 'build-essential':
+    ensure  => installed
   }
 
   file { "/tmp/$node_tar":
