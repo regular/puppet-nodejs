@@ -31,7 +31,7 @@ class nodejs($user) {
   exec { "bash ./configure":
       alias => "configure_node"
     , cwd => "/tmp/node-$node_ver"
-    , require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["nodejs-build-essential-dep"]]
+    , require => [Exec['extract_node'], Package['openssl'], Package['libcurl4-openssl-dev'], Package['build-essential']]
     , timeout => 0
     , creates => "/tmp/node-$node_ver/.lock-wscript"
     , path    => ["/usr/bin/","/bin/"]
