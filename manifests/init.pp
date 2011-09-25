@@ -11,8 +11,9 @@ class nodejs($user) {
     ensure => "installed"
   }
   
-  package { "build-essential": 
-    ensure => installed
+  package { 'nodejs-build-essential-dep': 
+      name    => 'build-essential'
+    , ensure  => installed
   }
 
   file { "/tmp/$node_tar":
@@ -31,7 +32,7 @@ class nodejs($user) {
   exec { "bash ./configure":
     alias => "configure_node",
     cwd => "/tmp/node-$node_ver",
-    require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["build-essential"]],
+    require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["nodejs-build-essential-dep"]],
     timeout => 0,
     creates => "/tmp/node-$node_ver/.lock-wscript",
     path    => ["/usr/bin/","/bin/"],
@@ -58,10 +59,11 @@ class nodejs($user) {
     timeout => 0,
     path    => ["/usr/bin/","/bin/"],
     creates => '/usr/local/bin/node'
+    before  => 'nodejs::npm'
   }
   
   class {"nodejs::npm": 
-      user    => $user 
+      user    => $user
   }
   
 }
