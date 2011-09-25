@@ -58,7 +58,7 @@ class nodejs($user) {
     , timeout => 0
     , path    => ["/usr/bin/","/bin/"]
     , creates => '/usr/local/bin/node'
-    , before  => 'nodejs::npm'
+    , before  => Class['nodejs::npm']
   }
   
   class {"nodejs::npm": 
