@@ -17,49 +17,49 @@ class nodejs($user) {
   }
 
   file { "/tmp/$node_tar":
-    source => "puppet:///modules/nodejs/$node_tar",
-    ensure => "present",
+      source => "puppet:///modules/nodejs/$node_tar"
+    , ensure => "present"
   }
 
   exec { "extract_node":
-    command => "tar -xzf $node_tar",
-    cwd => "/tmp",
-    creates => "/tmp/node-$node_ver",
-    require => File["/tmp/$node_tar"],
-    path    => ["/usr/bin/","/bin/"],
+      command => "tar -xzf $node_tar"
+    , cwd => "/tmp"
+    , creates => "/tmp/node-$node_ver",
+    , require => File["/tmp/$node_tar"]
+    , path    => ["/usr/bin/","/bin/"]
   }
 
   exec { "bash ./configure":
-    alias => "configure_node",
-    cwd => "/tmp/node-$node_ver",
-    require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["nodejs-build-essential-dep"]],
-    timeout => 0,
-    creates => "/tmp/node-$node_ver/.lock-wscript",
-    path    => ["/usr/bin/","/bin/"],
+      alias => "configure_node"
+    , cwd => "/tmp/node-$node_ver"
+    , require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["nodejs-build-essential-dep"]]
+    , timeout => 0
+    , creates => "/tmp/node-$node_ver/.lock-wscript"
+    , path    => ["/usr/bin/","/bin/"]
   }
 
   file { "/tmp/node-$node_ver":
-    ensure => "directory",
-    require => Exec["configure_node"]
+      ensure => "directory"
+    , require => Exec["configure_node"]
   }
 
   exec { "make_node":
-    command => "make",
-    cwd => "/tmp/node-$node_ver",
-    require => Exec["configure_node"],
-    timeout => 0,
-    creates	=> "/tmp/node-$node_ver/tools/js2c.pyc",
-    path    => ["/usr/bin/","/bin/"],
+      command => "make"
+    , cwd => "/tmp/node-$node_ver"
+    , require => Exec["configure_node"]
+    , timeout => 0
+    , creates	=> "/tmp/node-$node_ver/tools/js2c.pyc"
+    , path    => ["/usr/bin/","/bin/"]
   }
 
   exec { "install_node":
-    command => "make install",
-    cwd     => "/tmp/node-$node_ver",
-    require => Exec["make_node"],
-    timeout => 0,
-    path    => ["/usr/bin/","/bin/"],
-    creates => '/usr/local/bin/node'
-    before  => 'nodejs::npm'
+      command => "make install"
+    , cwd     => "/tmp/node-$node_ver"
+    , require => Exec["make_node"]
+    , timeout => 0
+    , path    => ["/usr/bin/","/bin/"]
+    , creates => '/usr/local/bin/node'
+    , before  => 'nodejs::npm'
   }
   
   class {"nodejs::npm": 
