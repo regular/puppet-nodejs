@@ -24,7 +24,7 @@ class nodejs($user) {
   exec { "extract_node":
       command => "tar -xzf $node_tar"
     , cwd => "/tmp"
-    , creates => "/tmp/node-$node_ver",
+    , creates => "/tmp/node-$node_ver"
     , require => File["/tmp/$node_tar"]
     , path    => ["/usr/bin/","/bin/"]
   }
