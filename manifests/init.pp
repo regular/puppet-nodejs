@@ -1,4 +1,4 @@
-class nodejs($user) {
+define nodejs($user) {
 
   $node_ver = "v0.4.12"
   $node_tar = "node-$node_ver.tar.gz"
