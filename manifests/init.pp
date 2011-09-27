@@ -1,4 +1,4 @@
-define nodejs($user) {
+class nodejs($user) {
 
   $node_ver = "v0.4.12"
   $node_tar = "node-$node_ver.tar.gz"
@@ -31,7 +31,7 @@ define nodejs($user) {
   exec { "bash ./configure":
       alias => "configure_node"
     , cwd => "/tmp/node-$node_ver"
-    , require => [Exec['extract_node'], Package['openssl'], Package['libcurl4-openssl-dev'], Package['build-essential']]
+    , require => [Exec["extract_node"], Package["openssl"], Package["libcurl4-openssl-dev"], Package["nodejs-build-essential-dep"]]
     , timeout => 0
     , creates => "/tmp/node-$node_ver/.lock-wscript"
     , path    => ["/usr/bin/","/bin/"]
